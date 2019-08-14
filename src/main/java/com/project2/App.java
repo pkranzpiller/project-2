@@ -19,4 +19,5 @@ public class App {
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
 		return builder.build();
 	}
+	
 }
