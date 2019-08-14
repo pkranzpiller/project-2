@@ -6,12 +6,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.client.RestTemplate;
 
-//@PropertySource("file:///home/patrick/Development/application.properties")
-@PropertySource("file:///home/ec2-user/application.properties")
 @SpringBootApplication
 public class App {
 
 	public static void main(String[] args) {
+		System.out.println("Working Directory = " + System.getProperty("user.dir"));
 		SpringApplication.run(App.class, args);
 	}
 	
