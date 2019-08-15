@@ -35,5 +35,9 @@ public class UserRepository {
 		}
 		return returnUser;
 	}
+	
+	public void storeUser(Users user) {
+		getSession().save(user);
+	}
 
 }

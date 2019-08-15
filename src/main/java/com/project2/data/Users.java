@@ -21,6 +21,9 @@ public class Users {
 	@Column
 	@NotBlank
 	private String password;
+	@Column
+	@NotBlank
+	private String usertype;
 	public int getId() {
 		return id;
 	}
@@ -39,11 +42,19 @@ public class Users {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + "]";
+	
+	public String getUsertype() {
+		return this.usertype;
 	}
 	
+	public void setUsertype(String usertype) {
+		this.usertype = usertype;
+	}
+	
+	@Override
+	public String toString() {
+		return "Users [id=" + id + ", username=" + username + ", password=" + password + ", usertype=" + usertype + "]";
+	}
 	public Users() {
 	}
 	

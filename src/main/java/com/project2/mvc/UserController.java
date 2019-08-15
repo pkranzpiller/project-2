@@ -40,4 +40,13 @@ public class UserController {
 			}
 		return null;
 	}
+	
+	@PostMapping(path = "/newUser")
+	public void storeUser(@RequestBody Users user) {
+		Users newUser = new Users();
+		newUser.setUsername(user.getUsername());
+		newUser.setPassword(user.getPassword());
+		newUser.setUsertype("user");
+		this.userRepository.storeUser(newUser);
+	}
 }
