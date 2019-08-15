@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional
-public class UserRepository {
-	
+public class ReviewsRepository {
+
 	@Autowired
 	private EntityManager entityManager;
 	
@@ -20,20 +20,19 @@ public class UserRepository {
 		return entityManager.unwrap(Session.class);
 	}
 	
-	public List<Users> getAllUsers(){
-		return getSession().createQuery("From Users", Users.class).list();
+	public List<Reviews> getReviews(String animename){
+		Query<Reviews> q = null;
+		q = getSession().createQuery("SELECT c FROM Reviews c WHERE c.animename = :animename", Reviews.class);
+		List<Reviews> reviews = null;
+		try {
+			reviews = q.setParameter("animename", animename).getResultList();
+		} catch (NoResultException e) {
+			System.out.println("review not found");
+		}
+		return reviews;
 	}
 	
-	public Users getUser(String username) throws NoResultException {
-		Query<Users> q = null;
-		Users returnUser = null;
-		q = getSession().createQuery("SELECT c FROM Users c WHERE c.username = :username", Users.class);
-		try {
-			returnUser = q.setParameter("username", username).getSingleResult();
-		} catch (NoResultException e) {
-			System.out.println("User not found");
-		}
-		return returnUser;
+	public void storeReview(Reviews review) {
+		getSession().save(review);
 	}
-
 }
