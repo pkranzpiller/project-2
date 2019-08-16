@@ -39,5 +39,20 @@ public class UserRepository {
 	public void storeUser(Users user) {
 		getSession().save(user);
 	}
+	
+	public boolean doesUserExist(String username) throws NoResultException{
+		Query<Users> q = null;
+		Users user = null;
+		q = getSession().createQuery("SELECT c FROM Users c WHERE c.username = :username", Users.class);
+		try {
+			user = q.setParameter("username", username).getSingleResult();
+			if(user.getUsername().equals(username))
+				return true;
+			else
+				return false;
+		} catch (NoResultException e) {
+			return false;
+		}
+	}
 
 }

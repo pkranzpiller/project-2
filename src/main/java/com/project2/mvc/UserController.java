@@ -3,6 +3,8 @@ package com.project2.mvc;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,21 +34,26 @@ public class UserController {
 	
 	
 	@PostMapping
-	public Users validateUser(@RequestBody Users u){
+	public ResponseEntity<?> validateUser(@RequestBody Users u){
 		Users user = this.userRepository.getUser(u.getUsername());
 		if(user != null)
 			if(user.getUsername().equals(u.getUsername()) && user.getPassword().equals(u.getPassword())) {
-				return user;
+				return ResponseEntity.status(HttpStatus.ACCEPTED).body("login successful");
 			}
-		return null;
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("hax, intruder alert!");
 	}
 	
 	@PostMapping(path = "/newUser")
-	public void storeUser(@RequestBody Users user) {
+	public ResponseEntity<?> storeUser(@RequestBody Users user) {
 		Users newUser = new Users();
 		newUser.setUsername(user.getUsername());
 		newUser.setPassword(user.getPassword());
 		newUser.setUsertype("user");
+		if(userRepository.doesUserExist(user.getUsername())) {
+			System.out.println("username exists");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("failed to store user");
+		}
 		this.userRepository.storeUser(newUser);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).body("stored user");
 	}
 }
