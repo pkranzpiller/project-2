@@ -34,11 +34,11 @@ public class UserController {
 	
 	
 	@PostMapping
-	public String login(@RequestBody Users u){
+	public Users login(@RequestBody Users u){
 		Users user = this.userRepository.getUser(u.getUsername());
 		if(user != null)
 			if(user.getUsername().equals(u.getUsername()) && user.getPassword().equals(u.getPassword())) {
-				return user.getUsername();
+				return user;
 			}
 		return null;
 	}
