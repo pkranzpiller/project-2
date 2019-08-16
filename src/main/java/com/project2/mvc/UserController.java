@@ -38,7 +38,7 @@ public class UserController {
 		Users user = this.userRepository.getUser(u.getUsername());
 		if(user != null)
 			if(user.getUsername().equals(u.getUsername()) && user.getPassword().equals(u.getPassword())) {
-				return ResponseEntity.status(HttpStatus.ACCEPTED).body("login successful");
+				return ResponseEntity.status(HttpStatus.OK).body("login successful");
 			}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("hax, intruder alert!");
 	}
