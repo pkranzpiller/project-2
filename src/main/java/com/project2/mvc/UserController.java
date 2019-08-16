@@ -2,6 +2,8 @@ package com.project2.mvc;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,13 +36,19 @@ public class UserController {
 	
 	
 	@PostMapping
-	public ResponseEntity<?> validateUser(@RequestBody Users u){
+	public ResponseEntity<?> validateUser(@RequestBody Users u, HttpSession httpsession){
 		Users user = this.userRepository.getUser(u.getUsername());
 		if(user != null)
 			if(user.getUsername().equals(u.getUsername()) && user.getPassword().equals(u.getPassword())) {
+				httpsession.setAttribute("currentuser", user);
 				return ResponseEntity.status(HttpStatus.OK).body("login successful");
 			}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("hax, intruder alert!");
+	}
+	
+	@GetMapping(path = "/logout")
+	public void logout(HttpSession httpsession) {
+		httpsession.invalidate();
 	}
 	
 	@PostMapping(path = "/newUser")
