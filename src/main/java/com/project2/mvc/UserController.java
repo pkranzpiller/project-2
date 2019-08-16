@@ -34,13 +34,13 @@ public class UserController {
 	
 	
 	@PostMapping
-	public ResponseEntity<?> validateUser(@RequestBody Users u){
+	public String login(@RequestBody Users u){
 		Users user = this.userRepository.getUser(u.getUsername());
 		if(user != null)
 			if(user.getUsername().equals(u.getUsername()) && user.getPassword().equals(u.getPassword())) {
-				return ResponseEntity.status(HttpStatus.OK).body("login successful");
+				return user.getUsername();
 			}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("hax, intruder alert!");
+		return null;
 	}
 	
 	@PostMapping(path = "/newUser")
